@@ -94286,8 +94286,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ant_design_icons_FieldTimeOutlined__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_ant_design_icons_FieldTimeOutlined__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _ant_design_icons_SettingOutlined__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ant-design/icons/SettingOutlined */ "./node_modules/@ant-design/icons/SettingOutlined.js");
 /* harmony import */ var _ant_design_icons_SettingOutlined__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_ant_design_icons_SettingOutlined__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _MenuItems__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./MenuItems */ "./resources/js/components/MenuItems.jsx");
-/* harmony import */ var _MyAppointments__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./MyAppointments */ "./resources/js/components/MyAppointments.jsx");
+/* harmony import */ var _MyAppointments__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./MyAppointments */ "./resources/js/components/MyAppointments.jsx");
 
 
 
@@ -94322,7 +94321,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var Sider = antd_es_layout__WEBPACK_IMPORTED_MODULE_5__["default"].Sider,
     Content = antd_es_layout__WEBPACK_IMPORTED_MODULE_5__["default"].Content;
-
 
 
 
@@ -94387,7 +94385,7 @@ var App = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
         path: "/agendamentos"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_MyAppointments__WEBPACK_IMPORTED_MODULE_14__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_MyAppointments__WEBPACK_IMPORTED_MODULE_13__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
         path: "/novo-agendamento"
       }, "Novo agendamento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Route"], {
         path: "/retorno-de-agendamentos"
@@ -94406,17 +94404,6 @@ var App = /*#__PURE__*/function (_React$Component) {
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
 var createAppComponent = react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(App);
-
-/***/ }),
-
-/***/ "./resources/js/components/MenuItems.jsx":
-/*!***********************************************!*\
-  !*** ./resources/js/components/MenuItems.jsx ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/pedro/code/visits-calendar/resources/js/components/MenuItems.jsx'");
 
 /***/ }),
 

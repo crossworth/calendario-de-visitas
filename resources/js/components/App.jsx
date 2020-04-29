@@ -11,9 +11,7 @@ import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined'
 import FieldTimeOutlined from '@ant-design/icons/FieldTimeOutlined'
 import SettingOutlined from '@ant-design/icons/SettingOutlined'
 
-import MenuItems from './MenuItems'
 import MyAppointments from './MyAppointments'
-
 
 class App extends React.Component {
     constructor(props, context, state) {
