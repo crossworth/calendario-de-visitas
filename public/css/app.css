@@ -1,0 +1,18 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);.side-area {
+  background: white !important;
+}
+
+.logo {
+  height: 32px;
+  font-weight: bold;
+  margin: 16px;
+  text-align: center;
+  font-family: Nunito, sans-serif;
+  font-size: 18px;
+}
+
+.main-content {
+  background: #fff;
+  border-radius: 5px;
+}
+

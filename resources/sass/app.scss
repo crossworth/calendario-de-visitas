@@ -1,0 +1,32 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+.side-area {
+    background: white !important;
+}
+
+//#components-layout-demo-custom-trigger .trigger {
+//    font-size: 18px;
+//    line-height: 64px;
+//    padding: 0 24px;
+//    cursor: pointer;
+//    transition: color 0.3s;
+//}
+//
+//#components-layout-demo-custom-trigger .trigger:hover {
+//    color: #1890ff;
+//}
+
+.logo {
+    height: 32px;
+    font-weight: bold;
+    margin: 16px;
+    text-align: center;
+    font-family: Nunito, sans-serif;
+    font-size: 18px;
+}
+
+.main-content {
+    background: #fff;
+    border-radius: 5px;
+}
