@@ -20,6 +20,6 @@ class Appointment extends Model
 
     public function files(): HasMany
     {
-        $this->hasMany(AppointmentFiles::class);
+        return $this->hasMany(AppointmentFiles::class);
     }
 }

@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AppointmentFiles extends Model
 {
     protected $fillable = [
-        'name', 'path'
+        'appointment_id', 'name', 'path'
     ];
 
     public function Appointment(): BelongsTo
     {
-        $this->belongsTo(Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 }

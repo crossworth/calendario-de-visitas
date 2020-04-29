@@ -15,9 +15,15 @@ class AppointmentFilesTable extends Migration
     {
         Schema::create('appointment_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('appointment_id');
             $table->string('name');
             $table->string('path');
             $table->timestamps();
+
+            $table->foreign('appointment_id')
+                ->references('id')
+                ->on('appointments')
+                ->onDelete('cascade');
         });
     }
 
