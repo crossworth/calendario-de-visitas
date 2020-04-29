@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Appointment extends Model
 {
@@ -16,4 +17,9 @@ class Appointment extends Model
     protected $dates = [
         'date', 'return_date', 'due_date'
     ];
+
+    public function files(): HasMany
+    {
+        $this->hasMany(AppointmentFiles::class);
+    }
 }
