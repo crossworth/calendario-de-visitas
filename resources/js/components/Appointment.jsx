@@ -110,6 +110,18 @@ export default class Appointment extends React.Component {
 
     render() {
         let content
+        let filesContent
+
+        if (!this.state.appointment.files || this.state.appointment.files.length === 0) {
+            filesContent = <div>Nenhum arquivo</div>
+        } else {
+            filesContent = this.state.appointment.files.map(file =>
+                <div key={file.name}>
+                    <a href={file.url} target="_blank">{file.name}</a>
+                    <br/>
+                </div>
+            )
+        }
 
         if (this.state.error) {
             content = <div>
@@ -138,12 +150,7 @@ export default class Appointment extends React.Component {
                 />
                 <br/>
                 <strong>Arquivos</strong><br/>
-                {this.state.appointment.files.map(file =>
-                    <div key={file.name}>
-                        <a href={file.url} target="_blank">{file.name}</a>
-                        <br/>
-                    </div>
-                )}
+                {filesContent}
             </div>
         }
 

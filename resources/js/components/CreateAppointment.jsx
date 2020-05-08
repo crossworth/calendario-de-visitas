@@ -138,6 +138,10 @@ class CreateAppointment extends React.Component {
 
         const readFiles = () => {
             return new Promise((resolve, reject) => {
+                if (this.state.fileList.length === 0) {
+                    resolve()
+                }
+
                 for (let file of this.state.fileList) {
                     const reader = new FileReader()
                     reader.onload = e => {

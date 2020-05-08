@@ -31,4 +31,8 @@ const getAppointment = id => {
     return api.get('/appointments/' + id)
 }
 
-export { createAppointment, getAppointment }
+const getAppointments = () => {
+    return api.get('/appointments')
+}
+
+export { createAppointment, getAppointment, getAppointments }
