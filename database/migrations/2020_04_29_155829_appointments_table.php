@@ -15,7 +15,7 @@ class AppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('landline_phone_number')->nullable();

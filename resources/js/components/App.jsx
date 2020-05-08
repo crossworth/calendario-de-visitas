@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
 
 import { ConfigProvider, Layout, Menu } from 'antd'
-import ptBR from 'antd/es/locale/pt_BR';
+import ptBR from 'antd/es/locale/pt_BR'
 
 const { Sider, Content } = Layout
 
@@ -12,6 +12,7 @@ import FieldTimeOutlined from '@ant-design/icons/FieldTimeOutlined'
 import SettingOutlined from '@ant-design/icons/SettingOutlined'
 
 import MyAppointments from './MyAppointments'
+import CreateAppointment from './CreateAppointment'
 
 class App extends React.Component {
     constructor(props, context, state) {
@@ -51,12 +52,12 @@ class App extends React.Component {
                                     <span>Retorno de agendamentos</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="integrations">
-                                <Link to="/integracoes">
-                                    <SettingOutlined/>
-                                    <span>Integrações</span>
-                                </Link>
-                            </Menu.Item>
+                            {/*<Menu.Item key="integrations">*/}
+                            {/*    <Link to="/integracoes">*/}
+                            {/*        <SettingOutlined/>*/}
+                            {/*        <span>Integrações</span>*/}
+                            {/*    </Link>*/}
+                            {/*</Menu.Item>*/}
                         </Menu>
                     </Sider>
 
@@ -74,7 +75,7 @@ class App extends React.Component {
                                 <MyAppointments/>
                             </Route>
                             <Route path="/novo-agendamento">
-                                Novo agendamento
+                                <CreateAppointment/>
                             </Route>
                             <Route path="/retorno-de-agendamentos">
                                 Retorno de agendamentos
