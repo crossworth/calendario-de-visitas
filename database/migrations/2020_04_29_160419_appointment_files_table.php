@@ -15,6 +15,7 @@ class AppointmentFilesTable extends Migration
     {
         Schema::create('appointment_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uuid');
             $table->unsignedInteger('appointment_id');
             $table->string('name');
             $table->string('path');

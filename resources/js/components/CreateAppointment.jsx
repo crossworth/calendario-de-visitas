@@ -1,7 +1,11 @@
 import React from 'react'
 
-import { Typography, Form, Input, Button, Select, InputNumber, DatePicker, message } from 'antd'
-import { createAppointment } from '../api'
+import { withRouter } from 'react-router-dom'
+
+import { Typography, Form, Input, Button, Select, InputNumber, DatePicker, message, Upload } from 'antd'
+import { createAppointment, xCSRFToken } from '../api'
+
+import InboxOutlined from '@ant-design/icons/InboxOutlined'
 
 const { Title } = Typography
 
@@ -93,7 +97,7 @@ const phoneValidator = (rule, value) => {
         return Promise.resolve()
     }
 
-    let valid = /^[9]?\d{4}\-?\d{4}$/g.exec(value)
+    let valid = /^[9]?\d{4}-?\d{4}$/g.exec(value)
 
     if (valid !== null) {
         return Promise.resolve()
@@ -110,34 +114,100 @@ const sanitizePhoneNumber = (ddd, phone) => {
     return (ddd.toString() + phone.toString()).toString().replace('-', '').replace(' ', '')
 }
 
-export default class CreateAppointment extends React.Component {
+const normFile = e => {
+    console.log('Upload event:', e)
+    if (Array.isArray(e)) {
+        return e
+    }
+    return e && e.fileList
+}
+
+class CreateAppointment extends React.Component {
+
+    constructor(props, context, state) {
+        super(props, context)
+        this.state = {
+            fileList: []
+        }
+
+        this.onSubmit = this.onSubmit.bind(this)
+    }
+
     onSubmit(values) {
-        createAppointment({
-            name: values.name,
-            address: values.address,
-            landline_phone_number: sanitizePhoneNumber(values.ddd_landline_phone_number, values.landline_phone_number),
-            mobile_phone_number: sanitizePhoneNumber(values.ddd_mobile_phone_number, values.mobile_phone_number),
-            email: values.email,
-            number_of_employees: values.number_of_employees,
-            date: values.date,
-            return_date: values.return_date,
-            due_date: values.due_date,
-            observations: values.observations
-        }).then(result => {
-            message.success('Visita cadastrada com sucesso')
-            // redirect
-        }).catch(error => {
-            let errorMessage = error
+        const files = []
 
-            if (error.response && error.response.request && error.response.request.response) {
-                errorMessage = error.response.request.response
-            }
+        const readFiles = () => {
+            return new Promise((resolve, reject) => {
+                for (let file of this.state.fileList) {
+                    const reader = new FileReader()
+                    reader.onload = e => {
+                        files.push({
+                            name: file.name,
+                            content: btoa(e.target.result),
+                        })
 
-            message.error('Ocorreu um erro ao cadastrar a visita: ' + errorMessage)
+                        if (files.length === this.state.fileList.length) {
+                            resolve()
+                        }
+                    }
+                    reader.readAsBinaryString(file)
+                }
+            })
+        }
+
+        readFiles().then(() => {
+            createAppointment({
+                name: values.name,
+                address: values.address,
+                landline_phone_number: sanitizePhoneNumber(values.ddd_landline_phone_number, values.landline_phone_number),
+                mobile_phone_number: sanitizePhoneNumber(values.ddd_mobile_phone_number, values.mobile_phone_number),
+                email: values.email,
+                number_of_employees: values.number_of_employees,
+                date: values.date,
+                return_date: values.return_date,
+                due_date: values.due_date,
+                observations: values.observations,
+                documents: files,
+            }).then(result => {
+                message.success('Agendamento cadastrado com sucesso')
+                console.log(result.data.id)
+                this.props.history.push('/agendamentos/' + result.data.id)
+            }).catch(error => {
+                let errorMessage = error
+
+                if (error.response && error.response.request && error.response.request.response) {
+                    errorMessage = error.response.request.response
+                }
+
+                message.error('Ocorreu um erro ao cadastrar o agendamento: ' + errorMessage)
+            })
         })
     }
 
     render() {
+        const { fileList } = this.state
+        const uploadProps = {
+            onRemove: file => {
+                this.setState(state => {
+                    const index = state.fileList.indexOf(file)
+                    const newFileList = state.fileList.slice()
+                    newFileList.splice(index, 1)
+                    return {
+                        fileList: newFileList,
+                    }
+                })
+            },
+            beforeUpload: file => {
+                this.setState(state => ({
+                    fileList: [...state.fileList, file],
+                }))
+
+                return false
+            },
+            fileList,
+            multiple: true,
+        }
+
         return <div>
             <Title level={3}>Novo agendamento</Title>
             <Form
@@ -219,6 +289,17 @@ export default class CreateAppointment extends React.Component {
                     <Input.TextArea/>
                 </Form.Item>
 
+                <Form.Item label="Documentos">
+                    <Form.Item name="documents" valuePropName="documents" getValueFromEvent={normFile} noStyle>
+                        <Upload.Dragger {...uploadProps}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined/>
+                            </p>
+                            <p className="ant-upload-text">Clique aqui ou solte arquivos para enviar</p>
+                        </Upload.Dragger>
+                    </Form.Item>
+                </Form.Item>
+
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
                         Cadastrar
@@ -228,3 +309,5 @@ export default class CreateAppointment extends React.Component {
         </div>
     }
 }
+
+export default withRouter(CreateAppointment)

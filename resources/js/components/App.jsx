@@ -13,11 +13,11 @@ import SettingOutlined from '@ant-design/icons/SettingOutlined'
 
 import MyAppointments from './MyAppointments'
 import CreateAppointment from './CreateAppointment'
+import Appointment from './Appointment'
 
 class App extends React.Component {
     constructor(props, context, state) {
         super(props, context)
-        this.sta
     }
 
     render() {
@@ -71,6 +71,7 @@ class App extends React.Component {
                         }}>
 
                         <Switch>
+                            <Route path="/agendamentos/:id" render={(props) => <Appointment {...props}/>}/>
                             <Route path="/agendamentos">
                                 <MyAppointments/>
                             </Route>

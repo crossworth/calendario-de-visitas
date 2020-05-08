@@ -14,6 +14,8 @@ class Appointment extends Model
         'observations'
     ];
 
+    protected $with = ['files'];
+
     protected $dates = [
         'date', 'return_date', 'due_date'
     ];
@@ -34,6 +36,7 @@ class Appointment extends Model
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'address' => $this->address,
             'user_id' => $this->user_id,
@@ -44,7 +47,8 @@ class Appointment extends Model
             'date' => $this->date,
             'return_date' => $this->return_date,
             'due_date' => $this->due_date,
-            'observations' => $this->observations
+            'observations' => $this->observations,
+            'files' => $this->files
         ];
     }
 }

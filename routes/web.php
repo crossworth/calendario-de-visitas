@@ -3,9 +3,11 @@
 use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{path?}', function () {
+Route::get('/download/{uuid}', [AppointmentController::class, 'downloadFile']);
+
+Route::get('{reactRoutes}', function () {
     return view('app');
-});
+})->where('reactRoutes', '^((?!api).)*$');
 
 Route::group(['prefix' => 'api'], function () {
     Route::get('/appointments', [AppointmentController::class, 'data']);

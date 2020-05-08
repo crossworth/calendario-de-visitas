@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\AppointmentFiles;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AppointmentController extends Controller
 {
     public function view(Request $request, Appointment $appointment): JsonResponse
     {
         // TODO(Pedro): only my appointments?
-        return response()->json($appointment->toArray());
+        return response()->json($appointment);
     }
 
     public function store(Request $request): JsonResponse
@@ -25,21 +28,21 @@ class AppointmentController extends Controller
             'number_of_employees', 'date', 'return_date', 'due_date', 'observations'
         ]));
 
-        return response()->json($appointment->toArray());
-    }
+        $files = $request->get('documents');
 
-    public function update(Request $request, Appointment $appointment): JsonResponse
-    {
-        $request->validate([
-            'name' => 'required'
-        ]);
+        foreach ($files as $file) {
+            $fileName = time() . "_" . $file['name'];
+            Storage::put($fileName, base64_decode($file['content']));
 
-        $appointment->fill($request->only([
-            'name', 'address', 'landline_phone_number', 'mobile_phone_number', 'email',
-            'number_of_employees', 'date', 'return_date', 'due_date', 'observations'
-        ]));
+            AppointmentFiles::create([
+                'appointment_id' => $appointment->id,
+                'name' => $file['name'],
+                'path' => $fileName
+            ]);
+        }
 
-        $appointment->save();
+        $appointment->refresh();
+
         return response()->json($appointment->toArray());
     }
 
@@ -53,5 +56,11 @@ class AppointmentController extends Controller
         }
 
         return response()->json($appointments->toArray());
+    }
+
+    public function downloadFile(Request $request, $uuid): BinaryFileResponse
+    {
+        $file = AppointmentFiles::where('uuid', $uuid)->first();
+        return response()->download(storage_path('/app/' . $file->path));
     }
 }
