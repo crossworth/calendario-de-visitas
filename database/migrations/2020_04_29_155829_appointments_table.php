@@ -15,6 +15,7 @@ class AppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('landline_phone_number')->nullable();
@@ -26,6 +27,11 @@ class AppointmentsTable extends Migration
             $table->dateTime('due_date')->nullable();
             $table->text('observations')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
