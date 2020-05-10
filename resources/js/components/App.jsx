@@ -9,11 +9,11 @@ const { Sider, Content } = Layout
 import CalendarOutlined from '@ant-design/icons/CalendarOutlined'
 import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined'
 import FieldTimeOutlined from '@ant-design/icons/FieldTimeOutlined'
-import SettingOutlined from '@ant-design/icons/SettingOutlined'
 
 import MyAppointments from './MyAppointments'
 import CreateAppointment from './CreateAppointment'
 import Appointment from './Appointment'
+import Search from './Search'
 
 class App extends React.Component {
     constructor(props, context, state) {
@@ -21,6 +21,12 @@ class App extends React.Component {
     }
 
     render() {
+        let defaultKey = 'agendamentos'
+
+        if (window.location.pathname) {
+            defaultKey = window.location.pathname.substr(1)
+        }
+
         return <ConfigProvider locale={ptBR}>
             <Router>
                 <Layout style={{ minHeight: '100vh' }}>
@@ -33,34 +39,27 @@ class App extends React.Component {
                         </div>
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={['my-appointments']}>
-                            <Menu.Item key="my-appointments">
+                            defaultSelectedKeys={[defaultKey]}>
+                            <Menu.Item key="agendamentos">
                                 <Link to="/agendamentos">
                                     <CalendarOutlined/>
                                     <span>Meus agendamentos</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="new-appointment">
+                            <Menu.Item key="novo-agendamento">
                                 <Link to="/novo-agendamento">
                                     <PlusCircleOutlined/>
                                     <span>Novo agendamento</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="return-of-appointments">
-                                <Link to="/retorno-de-agendamentos">
+                            <Menu.Item key="pesquisar">
+                                <Link to="/pesquisar">
                                     <FieldTimeOutlined/>
-                                    <span>Retorno de agendamentos</span>
+                                    <span>Pesquisar</span>
                                 </Link>
                             </Menu.Item>
-                            {/*<Menu.Item key="integrations">*/}
-                            {/*    <Link to="/integracoes">*/}
-                            {/*        <SettingOutlined/>*/}
-                            {/*        <span>Integrações</span>*/}
-                            {/*    </Link>*/}
-                            {/*</Menu.Item>*/}
                         </Menu>
                     </Sider>
-
 
                     <Content
                         className="main-content"
@@ -78,11 +77,8 @@ class App extends React.Component {
                             <Route path="/novo-agendamento">
                                 <CreateAppointment/>
                             </Route>
-                            <Route path="/retorno-de-agendamentos">
-                                Retorno de agendamentos
-                            </Route>
-                            <Route path="/integracoes">
-                                Integrações
+                            <Route path="/pesquisar">
+                                <Search/>
                             </Route>
                             <Route path="/">
                                 <Redirect to="/agendamentos"/>

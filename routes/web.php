@@ -9,6 +9,7 @@ Route::get('{reactRoutes}', function () {
     return view('app');
 })->where('reactRoutes', '^((?!api).)*$');
 
+// TODO(Pedro): protect routes against unauthenticated users
 Route::group(['prefix' => 'api'], function () {
     Route::get('/appointments', [AppointmentController::class, 'data']);
     Route::get('/appointments/{appointment}', [AppointmentController::class, 'view']);

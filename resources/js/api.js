@@ -35,4 +35,14 @@ const getAppointments = () => {
     return api.get('/appointments')
 }
 
-export { createAppointment, getAppointment, getAppointments }
+const searchAppointments = (date, returnDate, issueDate) => {
+    return api.get('/appointments', {
+        params: {
+            date: date ? date.format() : null,
+            return_date: returnDate ? returnDate.format() : null,
+            issue_date: issueDate ? issueDate.format() : null,
+        }
+    })
+}
+
+export { createAppointment, getAppointment, getAppointments, searchAppointments }

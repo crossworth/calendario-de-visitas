@@ -3,7 +3,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { Typography, Form, Input, Button, Select, InputNumber, DatePicker, message, Upload } from 'antd'
-import { createAppointment, xCSRFToken } from '../api'
+import { createAppointment } from '../api'
 
 import InboxOutlined from '@ant-design/icons/InboxOutlined'
 
@@ -16,77 +16,14 @@ const layout = {
 
 const { Option } = Select
 
+
+const possibleDDD = [11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 73, 74, 75, 77, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+
 const dddSelector = field => {
     return (
         <Form.Item name={'ddd_' + field} noStyle>
             <Select style={{ width: 70 }}>
-                <Option value="11">11</Option>
-                <Option value="12">12</Option>
-                <Option value="13">13</Option>
-                <Option value="14">14</Option>
-                <Option value="15">15</Option>
-                <Option value="16">16</Option>
-                <Option value="17">17</Option>
-                <Option value="18">18</Option>
-                <Option value="19">19</Option>
-                <Option value="21">21</Option>
-                <Option value="22">22</Option>
-                <Option value="24">24</Option>
-                <Option value="27">27</Option>
-                <Option value="28">28</Option>
-                <Option value="31">31</Option>
-                <Option value="32">32</Option>
-                <Option value="33">33</Option>
-                <Option value="34">34</Option>
-                <Option value="35">35</Option>
-                <Option value="37">37</Option>
-                <Option value="38">38</Option>
-                <Option value="41">41</Option>
-                <Option value="42">42</Option>
-                <Option value="43">43</Option>
-                <Option value="44">44</Option>
-                <Option value="45">45</Option>
-                <Option value="46">46</Option>
-                <Option value="47">47</Option>
-                <Option value="48">48</Option>
-                <Option value="49">49</Option>
-                <Option value="51">51</Option>
-                <Option value="53">53</Option>
-                <Option value="54">54</Option>
-                <Option value="55">55</Option>
-                <Option value="61">61</Option>
-                <Option value="62">62</Option>
-                <Option value="63">63</Option>
-                <Option value="64">64</Option>
-                <Option value="65">65</Option>
-                <Option value="66">66</Option>
-                <Option value="67">67</Option>
-                <Option value="68">68</Option>
-                <Option value="69">69</Option>
-                <Option value="71">71</Option>
-                <Option value="73">73</Option>
-                <Option value="74">74</Option>
-                <Option value="75">75</Option>
-                <Option value="77">77</Option>
-                <Option value="79">79</Option>
-                <Option value="81">81</Option>
-                <Option value="82">82</Option>
-                <Option value="83">83</Option>
-                <Option value="84">84</Option>
-                <Option value="85">85</Option>
-                <Option value="86">86</Option>
-                <Option value="87">87</Option>
-                <Option value="88">88</Option>
-                <Option value="89">89</Option>
-                <Option value="91">91</Option>
-                <Option value="92">92</Option>
-                <Option value="93">93</Option>
-                <Option value="94">94</Option>
-                <Option value="95">95</Option>
-                <Option value="96">96</Option>
-                <Option value="97">97</Option>
-                <Option value="98">98</Option>
-                <Option value="99">99</Option>
+                {possibleDDD.map(ddd => <Option key={ddd} value={ddd}>{ddd}</Option>)}
             </Select>
         </Form.Item>
     )
@@ -115,7 +52,6 @@ const sanitizePhoneNumber = (ddd, phone) => {
 }
 
 const normFile = e => {
-    console.log('Upload event:', e)
     if (Array.isArray(e)) {
         return e
     }
@@ -167,14 +103,13 @@ class CreateAppointment extends React.Component {
                 mobile_phone_number: sanitizePhoneNumber(values.ddd_mobile_phone_number, values.mobile_phone_number),
                 email: values.email,
                 number_of_employees: values.number_of_employees,
-                date: values.date,
-                return_date: values.return_date,
-                due_date: values.due_date,
+                date: values.date ? values.date.format() : null,
+                return_date: values.return_date ? values.return_date.format() : null,
+                due_date: values.due_date ? values.due_date.format() : null,
                 observations: values.observations,
                 documents: files,
             }).then(result => {
                 message.success('Agendamento cadastrado com sucesso')
-                console.log(result.data.id)
                 this.props.history.push('/agendamentos/' + result.data.id)
             }).catch(error => {
                 let errorMessage = error
@@ -250,16 +185,21 @@ class CreateAppointment extends React.Component {
                 <Form.Item
                     label="Telefone móvel"
                     name="mobile_phone_number"
-                    rules={[() => ({
-                        validator: phoneValidator
-                    })]}>
+                    rules={[
+                        { required: true, message: 'Informe o telefone móvel' },
+                        () => ({
+                            validator: phoneValidator
+                        })]}>
                     <Input addonBefore={dddSelector('mobile_phone_number')}/>
                 </Form.Item>
 
                 <Form.Item
                     label="Email"
                     name="email"
-                    rules={[{ type: 'email', message: 'Informe um email válido' }]}>
+                    rules={[
+                        { required: true, message: 'Informe o email' },
+                        { type: 'email', message: 'Informe um email válido' }
+                    ]}>
                     <Input/>
                 </Form.Item>
 

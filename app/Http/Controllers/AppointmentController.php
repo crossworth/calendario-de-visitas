@@ -6,6 +6,7 @@ use App\Appointment;
 use App\AppointmentFiles;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -21,6 +22,8 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'email' => 'required|email',
+            'mobile_phone_number' => 'required',
         ]);
 
         $appointment = Appointment::create($request->only([
@@ -48,14 +51,25 @@ class AppointmentController extends Controller
 
     public function data(Request $request): JsonResponse
     {
-        // TODO(Pedro): allows only authenticated users!
+        $appointments = Appointment::select('*');
+
         if (auth()->check()) {
-            $appointments = Appointment::where('user_id', auth()->id())->get();
-        } else {
-            $appointments = Appointment::all();
+            $appointments->where('user_id', auth()->id());
         }
 
-        return response()->json($appointments->toArray());
+        if ($request->has('date')) {
+            $appointments->whereDate('date', Carbon::parse($request->input('date'))->toDateString());
+        }
+
+        if ($request->has('return_date')) {
+            $appointments->whereDate('return_date', Carbon::parse($request->input('return_date'))->toDateString());
+        }
+
+        if ($request->has('due_date')) {
+            $appointments->whereDate('due_date', Carbon::parse($request->input('due_date'))->toDateString());
+        }
+
+        return response()->json($appointments->get()->toArray());
     }
 
     public function downloadFile(Request $request, $uuid): BinaryFileResponse
