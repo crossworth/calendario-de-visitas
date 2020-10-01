@@ -1,4 +1,4 @@
-import React from 'react'
+import React from, {useState} 'react'
 
 import { withRouter } from 'react-router-dom'
 
@@ -57,17 +57,9 @@ const normFile = e => {
     }
     return e && e.fileList
 }
-
-class CreateAppointment extends React.Component {
-
-    constructor(props, context, state) {
-        super(props, context)
-        this.state = {
-            fileList: []
-        }
-
-        this.onSubmit = this.onSubmit.bind(this)
-    }
+const CreateAppointment = (props) => {     
+    
+    const [fileList, setFileList] = useState([]);
 
     onSubmit(values) {
         const files = []
